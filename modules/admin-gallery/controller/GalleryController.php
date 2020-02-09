@@ -9,9 +9,9 @@ namespace AdminGallery\Controller;
 
 use LibFormatter\Library\Formatter;
 use LibForm\Library\Form;
+use LibForm\Library\Combiner;
 use LibPagination\Library\Paginator;
 use Gallery\Model\Gallery as Gallery;
-use AdminSiteMeta\Library\Meta;
 
 class GalleryController extends \Admin\Controller
 {
@@ -39,20 +39,25 @@ class GalleryController extends \Admin\Controller
             $gallery = Gallery::getOne(['id'=>$id]);
             if(!$gallery)
                 return $this->show404();
-            Meta::parse($gallery, 'meta');
             $params = $this->getParams('Edit Gallery');
         }else{
             $params = $this->getParams('Create New Gallery');
         }
 
-        $form              = new Form('admin.gallery.edit');
-        $params['form']    = $form;
-        $params['schemas'] = ['ImageGallery'=>'ImageGallery'];
+        $form           = new Form('admin.gallery.edit');
+        $params['form'] = $form;
+
+        $c_opts = [
+            'meta' => [null, null, 'json']
+        ];
+
+        $combiner = new Combiner($id, $c_opts, 'gallery');
+        $gallery = $combiner->prepare($gallery);
 
         if(!($valid = $form->validate($gallery))|| !$form->csrfTest('noob'))
             return $this->resp('gallery/edit', $params);
 
-        Meta::combine($valid, 'meta');
+        $valid = $combiner->finalize($valid);
 
         if($id){
             if(!Gallery::set((array)$valid, ['id'=>$id]))

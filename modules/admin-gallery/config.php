@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'admin-gallery',
-    '__version' => '0.0.1',
+    '__version' => '0.0.2',
     '__git' => 'git@github.com:getmim/admin-gallery.git',
     '__license' => 'MIT',
     '__author' => [
@@ -139,6 +139,11 @@ return [
                     'label' => 'About',
                     'type' => 'summernote',
                     'rules' => []
+                ],
+                'meta-schema' => [
+                    'options' => [
+                        'ImageGallery' => 'ImageGallery'
+                    ]
                 ]
             ]
         ]
