@@ -93,7 +93,7 @@ class GalleryController extends \Admin\Controller
         if($q = $this->req->getQuery('q'))
             $pcond['q'] = $cond['q'] = $q;
 
-        list($page, $rpp) = $this->req->getPager(1, 50);
+        list($page, $rpp) = $this->req->getPager(25, 50);
 
         $galleries = Gallery::get($cond, $rpp, $page, ['title'=>true]) ?? [];
         if($galleries)
