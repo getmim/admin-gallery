@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'admin-gallery',
-    '__version' => '0.0.2',
+    '__version' => '0.1.0',
     '__git' => 'git@github.com:getmim/admin-gallery.git',
     '__license' => 'MIT',
     '__author' => [
@@ -43,6 +43,10 @@ return [
             'AdminGallery\\Controller' => [
                 'type' => 'file',
                 'base' => 'modules/admin-gallery/controller'
+            ],
+            'AdminGallery\\Library' => [
+                'type' => 'file',
+                'base' => 'modules/admin-gallery/library'
             ]
         ],
         'files' => []
@@ -130,9 +134,9 @@ return [
                 'images' => [
                     'label' => 'Image List',
                     'type' => 'textarea',
-                    'nolabel' => true,
+                    'nolabel' => TRUE,
                     'rules' => [
-                        'json' => true
+                        'json' => TRUE
                     ]
                 ],
                 'content' => [
@@ -145,6 +149,13 @@ return [
                         'ImageGallery' => 'ImageGallery'
                     ]
                 ]
+            ]
+        ]
+    ],
+    'admin' => [
+        'objectFilter' => [
+            'handlers' => [
+                'gallery' => 'AdminGallery\\Library\\Filter'
             ]
         ]
     ]
